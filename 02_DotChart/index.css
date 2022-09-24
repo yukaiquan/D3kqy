@@ -1,0 +1,38 @@
+*{
+    margin: 0%;
+    padding: 0%;
+}
+#box-div{
+    position: absolute;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+}
+
+#dot-area circle{
+    fill: cornflowerblue;
+    opacity: 1;
+}
+
+.axis .domain{
+    stroke: gray;
+    stroke-width: .125rem;
+}
+.axis .title{
+    text-anchor: middle;
+    dominant-baseline: middle;
+    font-size: 1rem;
+    fill: black;
+    letter-spacing: .0625rem;
+}
+
+#xy-line{
+    stroke: lightskyblue;
+    stroke-width: .25rem;
+    opacity: 0.3;
+}
