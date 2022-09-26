@@ -16,43 +16,57 @@ dms.chartWidth = dms.width - dms.margin.left - dms.margin.right;
 dms.chartHeight = dms.height - dms.margin.top - dms.margin.bottom;
 
 // console.log(dms);
-const box = d3.select('#box-div').append('svg')
+const body = d3.select('#box-div')
+    .style('position', 'absolute')
+    .style('margin', 'auto')
+    .style('left', '50%')
+    .style('top', '50%')
+    .style('transform', 'translate(-50%,-50%)')
+
+const box = body.append('svg')
     .attr('id', 'box')
     .attr('width', dms.width)
     .attr('height', dms.height)
+
 // console.log(box);
 const content = box.append('g')
     .attr('id', 'content')
+    .style('font-family', "'Roboto', sans-serif")
     .style('transform', `translate(${dms.width / 2}px, ${dms.height / 2}px)`)
 // console.log(content);
 
 const dounutArea = content.append('g')
     .attr('id', 'dounut-area')
+    .style('dominant-baseline', 'middle')
+    .style('text-anchor', 'middle')
+    .style('font-weight', 'bold')
 
-const rectArea = content.append('rect')
-    .attr('id', 'rect-area')
+
+
 
 async function getData () {
     let data = await d3.csv('ACD_sfs_ann_detail.csv')
     // console.log(data)
     const totlecounts = data.reduce((acc, cur) => acc + +cur.counts, 0)
+    const totlegene = 120769
     const species = 'SFS'
     // console.log(totlecounts)
     data = data.sort((a, b) => b.counts - a.counts).splice(0, 10)
     // console.log(data)
-    drawDonutChart(data, totlecounts, species)
+    drawDonutChart(data, totlegene, totlecounts, species)
 }
 getData()
 
-const drawDonutChart = (data, totlecounts, species) => {
+const drawDonutChart = (data, totlegene, totlecounts, species) => {
     // console.log(data); 
     // Getter function
     const speciesGet = d => d.species;
     const countsGet = d => +d.counts;
 
+
     const countsColScale = d3.scaleLinear()
         .domain([0, d3.max(data, countsGet)])
-        .range([d3.rgb(221, 157, 156), d3.rgb(196, 34, 98)])
+        .range([d3.rgb(148, 200, 209), d3.rgb(93, 157, 216)])
         .nice()
     const speciesFontScale = d3.scaleLinear()
         .domain([0, d3.max(data, countsGet)])
@@ -63,7 +77,7 @@ const drawDonutChart = (data, totlecounts, species) => {
         .domain([0, totlecounts])
         .range([0, 100])
         .nice()
-
+    // console.log(rectScale(totlecounts))
     // console.log(d3.pie()(data))
     const pieGenerator = d3.pie()
         .value(d => countsGet(d))
@@ -71,14 +85,7 @@ const drawDonutChart = (data, totlecounts, species) => {
         .endAngle(Math.PI * 1.6)
         .padAngle(0.02)
     // console.log(pieGenerator(data))
-    const barplot = rectArea.selectAll('rect')
-        .data(rectScale(totlecounts))
-        .join('rect')
-        .attr('x', dms.chartWidth / 2)
-        .attr('y', dms.chartHeight / 2)
-        .attr('width', 20)
-        .attr('height', 20)
-        .attr('fill', 'red')
+
 
     const arcGenerator = d3.arc()
         .outerRadius(dms.chartWidth / 2 * 0.8)
@@ -93,6 +100,7 @@ const drawDonutChart = (data, totlecounts, species) => {
         .attr('fill', d => countsColScale(d.value))
     // console.log(dountChart)
 
+
     const pieChart = pieGenerator(data).forEach((d, i) => {
         // 取x坐标
         const x = arcGenerator.centroid(d)[0]
@@ -104,7 +112,69 @@ const drawDonutChart = (data, totlecounts, species) => {
             .attr('y', y)
             .text(speciesGet(data[i]) + ' ' + countsGet(data[i]))
             .style('font-size', '10px')
+            .style('font-weight', 'bold')
             .style('text-anchor', anchor)
             .style('fill', `${speciesFontScale(countsGet(data[i]))}`)
     })
+    const countsScale = d3.scaleLinear()
+        .domain([0, totlegene])
+        .range([0, 100])
+    const rectArea = dounutArea.append('rect')
+        .attr('id', 'rect-area')
+        .attr('x', dms.chartWidth / 2)
+        .attr('y', dms.chartHeight / 2)
+        .attr('width', 35)
+        .attr('height', 100)
+        .attr('fill', 'LightGray')
+        .style('transform', `rotate(-90deg) translate(-${dms.chartWidth / 2 + 15}px, -${dms.chartHeight / 2 + 50}px)`)
+        .attr('rx', 5)
+        .attr('ry', 5)
+        .attr('stroke', 'LightGray')
+        .attr('stroke-width', 5)
+
+    const prograssRect = dounutArea.append('rect')
+        .attr('id', 'rect-area')
+        .attr('x', dms.chartWidth / 2)
+        .attr('y', dms.chartHeight / 2)
+        .attr('width', 35)
+        .attr('height', countsScale(totlecounts))
+        .attr('fill', d3.rgb(201, 226, 202))
+        .style('transform', `rotate(-90deg) translate(-${dms.chartWidth / 2 + 15}px, -${dms.chartHeight / 2 + 50}px)`)
+
+    const prograssText = dounutArea.append('text')
+        .attr('id', 'prograss-text')
+        .attr('x', dms.chartWidth / 2 + 15)
+        .attr('y', dms.chartHeight / 2 + 50)
+        .attr('font-size', 20)
+        .attr('fill', d3.rgb(157, 96, 69))
+        .text(countsScale(totlecounts).toFixed(2) + '%')
+        .style('transform', `translate(-${dms.chartWidth / 2 + 15}px, -${dms.chartHeight / 2 + 50}px)`)
+
+    const speciesText = dounutArea.append('text')
+        .attr('id', 'species-text')
+        .attr('x', dms.chartWidth / 2 + 15)
+        .attr('y', dms.chartHeight / 2 + 85)
+        .attr('font-size', 20)
+        .attr('fill', d3.rgb(86, 87, 88))
+        .text(species)
+        .style('transform', `translate(-${dms.chartWidth / 2 + 15}px, -${dms.chartHeight / 2 + 50}px)`)
+
+    const totleText = dounutArea.append('text')
+        .attr('id', 'totle-text')
+        .attr('x', dms.chartWidth / 2 + 15)
+        .attr('y', dms.chartHeight / 2 + 110)
+        .attr('font-size', 16)
+        .attr('fill', d3.rgb(157, 96, 69))
+        .text(totlecounts + '/' + totlegene)
+        .style('transform', `translate(-${dms.chartWidth / 2 + 15}px, -${dms.chartHeight / 2 + 50}px)`)
+
+
 }
+d3.select("body").append("button")
+    .attr("type", "button")
+    .attr("class", "downloadButton")
+    .text("Download SVG")
+    .on("click", function () {
+        // download the svg
+        downloadSVG();
+    });
