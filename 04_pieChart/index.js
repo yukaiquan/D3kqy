@@ -1,4 +1,7 @@
 // console.log(d3)
+const svgname = 'Avena_d3_donut'
+const totlegene = 774931
+const species = 'Avena OAT'
 
 let dms = {
     width: 800,
@@ -16,17 +19,34 @@ dms.chartWidth = dms.width - dms.margin.left - dms.margin.right;
 dms.chartHeight = dms.height - dms.margin.top - dms.margin.bottom;
 
 // console.log(dms);
-const body = d3.select('#box-div')
+const body = d3.select('#box-div').append('div')
+    .attr('id', 'demo')
+
+const input = d3.select('#box-div').append('input')
+    .attr('type', 'file')
+    .attr('id', 'file')
+    .attr('name', 'file')
+    .attr('accept', '.csv')
+    .on('change', function () {
+        console.log(this.files[0])
+        const file = this.files[0].name
+        getData(file)
+    })
+
+
+
+
+const box = body.append('svg')
+    // .style('perspective', '1000px')
     .style('position', 'absolute')
     .style('margin', 'auto')
     .style('left', '50%')
     .style('top', '50%')
-    .style('transform', 'translate(-50%,-50%)')
-
-const box = body.append('svg')
-    .attr('id', 'box')
+    .style('viewBox', `0 0 ${dms.width} ${dms.height}`)
+    .attr('id', svgname)
     .attr('width', dms.width)
     .attr('height', dms.height)
+    .style('transform', 'translate(-50%,-50%)')
 
 // console.log(box);
 const content = box.append('g')
@@ -42,32 +62,28 @@ const dounutArea = content.append('g')
     .style('font-weight', 'bold')
 
 
-
-
-async function getData () {
-    let data = await d3.csv('ACD_sfs_ann_detail.csv')
+async function getData (file) {
+    let data = await d3.csv(file)
     // console.log(data)
     const totlecounts = data.reduce((acc, cur) => acc + +cur.counts, 0)
-    const totlegene = 120769
-    const species = 'SFS'
+
     // console.log(totlecounts)
     data = data.sort((a, b) => b.counts - a.counts).splice(0, 10)
     // console.log(data)
     drawDonutChart(data, totlegene, totlecounts, species)
 }
-getData()
+
 
 const drawDonutChart = (data, totlegene, totlecounts, species) => {
     // console.log(data); 
     // Getter function
     const speciesGet = d => d.species;
     const countsGet = d => +d.counts;
-
-
     const countsColScale = d3.scaleLinear()
         .domain([0, d3.max(data, countsGet)])
         .range([d3.rgb(148, 200, 209), d3.rgb(93, 157, 216)])
         .nice()
+
     const speciesFontScale = d3.scaleLinear()
         .domain([0, d3.max(data, countsGet)])
         .range(['#555', d3.rgb(86, 87, 88)])
@@ -91,14 +107,14 @@ const drawDonutChart = (data, totlegene, totlecounts, species) => {
         .outerRadius(dms.chartWidth / 2 * 0.8)
         .innerRadius(dms.chartWidth / 2 * 0.5)
         // .innerRadius(0)
-        .cornerRadius(5)
+        .cornerRadius(3)
 
     const dountChart = dounutArea.selectAll('path')
         .data(pieGenerator(data))
         .join('path')
         .attr('d', d => arcGenerator(d))
         .attr('fill', d => countsColScale(d.value))
-    // console.log(dountChart)
+        .attr('stroke', '#fff')
 
 
     const pieChart = pieGenerator(data).forEach((d, i) => {
@@ -112,7 +128,6 @@ const drawDonutChart = (data, totlegene, totlecounts, species) => {
             .attr('y', y)
             .text(speciesGet(data[i]) + ' ' + countsGet(data[i]))
             .style('font-size', '10px')
-            .style('font-weight', 'bold')
             .style('text-anchor', anchor)
             .style('fill', `${speciesFontScale(countsGet(data[i]))}`)
     })
@@ -146,7 +161,7 @@ const drawDonutChart = (data, totlegene, totlecounts, species) => {
         .attr('x', dms.chartWidth / 2 + 15)
         .attr('y', dms.chartHeight / 2 + 50)
         .attr('font-size', 20)
-        .attr('fill', d3.rgb(157, 96, 69))
+        .attr('fill', d3.rgb(204, 85, 99))
         .text(countsScale(totlecounts).toFixed(2) + '%')
         .style('transform', `translate(-${dms.chartWidth / 2 + 15}px, -${dms.chartHeight / 2 + 50}px)`)
 
@@ -176,5 +191,13 @@ d3.select("body").append("button")
     .text("Download SVG")
     .on("click", function () {
         // download the svg
-        downloadSVG();
-    });
+        downloadSVG()
+    })
+d3.select("body").append("button")
+    .attr("type", "button")
+    .attr("class", "downloadButton")
+    .text("Download PNG")
+    .on("click", function () {
+        saveSvgAsPng(document.getElementById(svgname), svgname.split('.')[0] + '.png', { backgroundColor: "#fff" });
+    })
+
