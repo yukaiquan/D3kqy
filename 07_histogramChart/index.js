@@ -37,7 +37,8 @@ async function drawScatter () {
         const xAccessor = d => d[metric]
         const yAccessor = d => d.length
         // const yAccessor = d => d.humidity
-        // console.log(xAccessor(data[0]))
+        console.log(xAccessor(data[0]))
+        console.log(yAccessor(data))
 
         // create scales
         const xScale = d3.scaleLinear()

@@ -1,6 +1,6 @@
 // console.log(d3)
 const svgname = 'Avena_d3_donut'
-const totlegene = 774931
+const totlegene = 114931
 const species = 'Avena OAT'
 
 let dms = {
@@ -34,7 +34,7 @@ const input = d3.select('#box-div').append('input')
     })
 
 
-
+getData()
 
 const box = body.append('svg')
     // .style('perspective', '1000px')
@@ -62,7 +62,7 @@ const dounutArea = content.append('g')
     .style('font-weight', 'bold')
 
 
-async function getData (file) {
+async function getData (file = 'ACD.SFS.pep.fasta.out.ann_detail.csv') {
     let data = await d3.csv(file)
     // console.log(data)
     const totlecounts = data.reduce((acc, cur) => acc + +cur.counts, 0)
