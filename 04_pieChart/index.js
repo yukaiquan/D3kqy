@@ -1,7 +1,7 @@
 // console.log(d3)
 const svgname = 'Avena_d3_donut'
-const totlegene = 114931
-const species = 'Avena OAT'
+const totlegene = 120769
+const species = 'SFS'
 
 let dms = {
     width: 800,

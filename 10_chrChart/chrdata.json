@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "chr": "chr1C",
+    "length": 529955746
+  },
+  {
+    "id": 2,
+    "chr": "chr2C",
+    "length": 534821622
+  },
+  {
+    "id": 3,
+    "chr": "chr3C",
+    "length": 551069265
+  },
+  {
+    "id": 4,
+    "chr": "chr4C",
+    "length": 455803086
+  },
+  {
+    "id": 5,
+    "chr": "chr5C",
+    "length": 459891171
+  },
+  {
+    "id": 6,
+    "chr": "chr6C",
+    "length": 555382095
+  },
+  {
+    "id": 7,
+    "chr": "chr7C",
+    "length": 588203704
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "chr": "chr7C",
+    "start": 1000000,
+    "end": 2000000,
+    "source": "chr1C"
+  },
+  {
+    "chr": "chr2C",
+    "start": 3000000,
+    "end": 4000000,
+    "source": "chr3C"
+  },
+  {
+    "chr": "chr4C",
+    "start": 5000000,
+    "end": 6000000,
+    "source": "chr5C"
+  },
+  {
+    "chr": "chr6C",
+    "start": 70000000,
+    "end": 80000000,
+    "source": "chr7C"
+  }
+]
