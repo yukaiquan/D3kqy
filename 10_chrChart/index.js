@@ -1,8 +1,11 @@
 // console.log(d3)
-const svgname = 'bmc_ath_chr'
-const CHRLENGTH = 'bmc_ath.lenth.csv'
-const PROBE = 'probe_ath.csv'
-const CHR_WIDTH = 50
+const svgname = 'Ot3098_chr'
+// const CHRLENGTH = 'bmc_ath.lenth.csv'
+// const PROBE = 'probe_ath.csv'
+const CHRLENGTH = 'ot3098v2_length.csv'
+const PROBE = 'oligo_add_vs_3098.csv'
+const SPLITE_CHAR = '%' // 分隔符
+const CHR_WIDTH = 28 // 柱状图宽度
 const chr_list = ['chr1A', 'chr2A', 'chr3A', 'chr4A', 'chr5A', 'chr6A', 'chr7A', 'chr1C', 'chr2C', 'chr3C', 'chr4C', 'chr5C', 'chr6C', 'chr7C', 'chr1D', 'chr2D', 'chr3D', 'chr4D', 'chr5D', 'chr6D', 'chr7D']
 const color_list = ['rgb(119,144,67)', 'rgb(255,165,16)', 'rgb(12,132,198)', 'rgb(0,44,83)', 'rgb(247,77,77)', 'rgb(118,218,145)', 'rgb(65,183,172)',
     'rgb(119,144,67)', 'rgb(255,165,16)', 'rgb(12,132,198)', 'rgb(0,44,83)', 'rgb(247,77,77)', 'rgb(118,218,145)', 'rgb(65,183,172)',
@@ -63,7 +66,7 @@ Promise.all([
     //读取csv文件
     d3.csv(PROBE, d => {
         return {
-            source: d.source.split('%')[0],
+            source: d.source.split(SPLITE_CHAR)[0],
             chr: d.chr,
             start: +d.start,
             end: +d.end
@@ -132,14 +135,15 @@ const barChart = (data, probe) => {
         // .attr('x2', d => yesScale(chrHash[d.chr] - 7) + 45)
         .attr('x2', d => xScale(d.chr) + CHR_WIDTH - 3.5)
         .attr('y2', d => countScale(d.start) + 10)
-        .attr('stroke', d => chrScale(d.source))
+        .attr('stroke', d => chrScale(d.source)) //设置线条颜色以比对的基因组为准
+        // .attr('stroke', d => chrScale(d.chr)) //设置线条颜色以比对到的基因组为准
         .attr('stroke-width', 0.05)
 
     barArea.selectAll('text')
         .data(data.filter(d => d.length > 0))
         .join('text')
         // .attr('x', d => yesScale(d.id))
-        .attr('x', d => xScale(d.chr) + 7)
+        .attr('x', d => xScale(d.chr) + 6)
         .attr('y', d => countScale(d.length) - 15)
         .text(d => d.chr)
 
@@ -208,7 +212,7 @@ d3.select("body").append("button")
     .text("Download SVG")
     .on("click", function () {
         // download the svg
-        downloadSVG()
+        saveSvg(document.getElementById(svgname), svgname.split('.')[0] + '.svg', { backgroundColor: "#fff" });
     })
 d3.select("body").append("button")
     .attr("type", "button")
@@ -217,3 +221,4 @@ d3.select("body").append("button")
     .on("click", function () {
         saveSvgAsPng(document.getElementById(svgname), svgname.split('.')[0] + '.png', { backgroundColor: "#fff" });
     })
+

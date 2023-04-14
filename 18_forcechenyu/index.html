@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <template id="node-template">
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <g class="node">
+          <circle cx="0" cy="0"></circle>
+          <text
+            x="0"
+            y="0"
+            text-anchor="middle"
+            alignment-baseline="middle"
+          ></text>
+        </g>
+      </svg>
+    </template>
+    <svg
+      id="graph"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          viewBox="0 -5 10 10"
+          refX="80"
+          refY="0"
+          markerUnits="strokeWidth"
+          markerWidth="12"
+          markerHeight="12"
+          orient="auto"
+        >
+          <path fill="#999" d="M0,-5L10,0L0,5" />
+        </marker>
+      </defs>
+      <!-- 使用translate和scale来实现画布的平移和缩放 -->
+      <g id="translater">
+        <g id="zoomer"></g>
+      </g>
+    </svg>
+
+    <script src="./data.js"></script>
+    <script src="../d3.min.js"></script>
+    <script src="./chart.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
