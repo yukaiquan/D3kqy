@@ -2,14 +2,16 @@
 const svgname = 'Ot3098_chr'
 // const CHRLENGTH = 'bmc_ath.lenth.csv'
 // const PROBE = 'probe_ath.csv'
-const CHRLENGTH = 'ot3098v2_length.csv'
-const PROBE = 'oligo_add_vs_3098.csv'
+const CHRLENGTH = 'Ad_chr.length'
+const PROBE = 'avena_damascena_ref_gt_del.csv'
 const SPLITE_CHAR = '%' // 分隔符
-const CHR_WIDTH = 28 // 柱状图宽度
-const chr_list = ['chr1A', 'chr2A', 'chr3A', 'chr4A', 'chr5A', 'chr6A', 'chr7A', 'chr1C', 'chr2C', 'chr3C', 'chr4C', 'chr5C', 'chr6C', 'chr7C', 'chr1D', 'chr2D', 'chr3D', 'chr4D', 'chr5D', 'chr6D', 'chr7D']
-const color_list = ['rgb(119,144,67)', 'rgb(255,165,16)', 'rgb(12,132,198)', 'rgb(0,44,83)', 'rgb(247,77,77)', 'rgb(118,218,145)', 'rgb(65,183,172)',
-    'rgb(119,144,67)', 'rgb(255,165,16)', 'rgb(12,132,198)', 'rgb(0,44,83)', 'rgb(247,77,77)', 'rgb(118,218,145)', 'rgb(65,183,172)',
-    'rgb(119,144,67)', 'rgb(255,165,16)', 'rgb(12,132,198)', 'rgb(0,44,83)', 'rgb(247,77,77)', 'rgb(118,218,145)', 'rgb(65,183,172)']
+const CHR_WIDTH = 35 // 柱状图宽度
+// const chr_list = ['chr1A', 'chr2A', 'chr3A', 'chr4A', 'chr5A', 'chr6A', 'chr7A', 'chr1C', 'chr2C', 'chr3C', 'chr4C', 'chr5C', 'chr6C', 'chr7C', 'chr1D', 'chr2D', 'chr3D', 'chr4D', 'chr5D', 'chr6D', 'chr7D']
+const chr_list = ['chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7']
+const color_list = ['rgb(119,144,67)', 'rgb(255,165,16)', 'rgb(12,132,198)', 'rgb(0,44,83)', 'rgb(247,77,77)', 'rgb(118,218,145)', 'rgb(65,183,172)']
+// const color_list = ['rgb(119,144,67)', 'rgb(255,165,16)', 'rgb(12,132,198)', 'rgb(0,44,83)', 'rgb(247,77,77)', 'rgb(118,218,145)', 'rgb(65,183,172)',
+// 'rgb(119,144,67)', 'rgb(255,165,16)', 'rgb(12,132,198)', 'rgb(0,44,83)', 'rgb(247,77,77)', 'rgb(118,218,145)', 'rgb(65,183,172)',
+// 'rgb(119,144,67)', 'rgb(255,165,16)', 'rgb(12,132,198)', 'rgb(0,44,83)', 'rgb(247,77,77)', 'rgb(118,218,145)', 'rgb(65,183,172)']
 
 let dms = {
     width: 1300,
